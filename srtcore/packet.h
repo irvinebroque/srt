@@ -356,6 +356,7 @@ public:
     int32_t& m_iMsgNo;     // alias: message number
     int32_t& m_iTimeStamp; // alias: timestamp
     int32_t& m_iID;        // alias: destination SRT socket ID
+    uint32_t& m_ppVal;     // alias: proxy protocol value
     char*&   m_pcData;     // alias: payload (data packet) / control information fields (control packet)
 
     // Experimental: sometimes these references don't work!
