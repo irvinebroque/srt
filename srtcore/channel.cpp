@@ -821,6 +821,14 @@ srt::EReadStatus srt::CChannel::recvfrom(sockaddr_any& w_addr, CPacket& w_packet
 
         mh.msg_flags      = 0;
 
+        // TODO: kluong - this is where we can parse proxy protocol (either ppv2 or spp)
+        // TODO: kluong - it's also possible that we extract additional information about the
+        //          underlying dst ip / port combination here so that we can pass it to the srt
+        //          infrastructure above
+        // possible example:
+        //      mh.msg_iov, spp_data = unroll_spp(mh.msg_iov)
+        //      w_packet.spp = spp_data
+      
         recv_size = ::recvmsg(m_iSocket, (&mh), 0);
         msg_flags = mh.msg_flags;
     }
