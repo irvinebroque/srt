@@ -10731,6 +10731,7 @@ int srt::CUDT::processConnectRequest(const sockaddr_any& addr, CPacket& packet)
         return m_RejectReason;
     }
 
+    // kluong - can we load the spp data here?
     CHandShake hs;
     hs.load_from(packet.m_pcData, packet.getLength());
 
@@ -11608,6 +11609,11 @@ bool srt::CUDT::runAcceptHook(CUDT *acore, const sockaddr* peer, const CHandShak
     acore->m_RejectReason = SRT_REJX_FALLBACK;
     try
     {
+        // if the handshake has some proxy protocol information, hardcode the target (streamid) to
+        // be the dst+port combination that we can then do lookups on
+        if(hs.m_iProxyProtocol != 0){
+            // target = "proxy_addr+proxy_port";
+        }
         int result = CALLBACK_CALL(m_cbAcceptHook, acore->m_SocketID, hs.m_iVersion, peer, target);
         if (result == -1)
             return false;
